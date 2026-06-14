@@ -1,4 +1,5 @@
 import LightThemeMobileBackground from './assets/img/light-theme-mobile-background.png'
+import LightThemeDesktopBackground from './assets/img/light-theme-desktop-background.png'
 import SwitchingLightThemeDarkTheme from './assets/img/switching-light-theme-dark-theme.png'
 import TodoDelete from './assets/img/icon-todo-delete.png'
 import './App.css'
@@ -16,6 +17,11 @@ export default function App() {
           <img
             src={LightThemeMobileBackground}
             className='light-theme-mobile-background'
+            alt=""
+          />
+          <img
+            src={LightThemeDesktopBackground}
+            className='light-theme-desktop-background'
             alt=""
           />
         </header>
