@@ -15,13 +15,13 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('dark-theme', darkTheme ? 'dark' : 'light');
-  }, [])
+  }, [darkTheme])
 
   const toggleTheme = () => {
     setDarkTheme(prev => {
       const next = !prev;
       localStorage.setItem('theme', next ? 'dark' : 'light');
-      document.documentElement.setAttribute('dark-theme', next ? 'dark' : 'light');
+      // document.documentElement.setAttribute('dark-theme', next ? 'dark' : 'light');
       return next;
     });
   }
