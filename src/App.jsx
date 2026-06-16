@@ -4,6 +4,7 @@ import DarkThemeMobileBackground from './assets/img/dark-theme-mobile-background
 import DarkThemeDesktopBackground from './assets/img/dark-theme-desktop-background.png'
 import SwitchingLightThemeDarkTheme from './assets/img/switching-light-theme-dark-theme.png'
 import SwitchingDarkThemeLightTheme from './assets/img/switching-dark-theme-light-theme.png'
+import Check from './assets/img/check.png'
 import TodoDelete from './assets/img/icon-todo-delete.png'
 import './App.css'
 import { useEffect, useState } from 'react'
@@ -139,20 +140,30 @@ export default function App() {
 
             {!loading && !errors && todos.map(todo => (
               <div className="todo" key={todo.id}>
-                <input
-                  type="checkbox"
-                  id={`todo.${todo.id}`}
-                  defaultChecked={todo.completed}
-                  onChange={() => {
-                    setTodos(prev =>
-                      prev.map(
-                        t => t.id === todo.id ? { ...t, completed: !t.completed } : t
-                      ))
-                  }}
-                  name="todo"
-                  value="todo"
-                  id="todo-radio"
-                />
+                <div className="checkbox-wrapper">
+
+                  <input
+                    type="checkbox"
+                    id={`todo.${todo.id}`}
+                    defaultChecked={todo.completed}
+                    onChange={() => {
+                      setTodos(prev =>
+                        prev.map(
+                          t => t.id === todo.id ? { ...t, completed: !t.completed } : t
+                        ))
+                    }}
+                    name="todo"
+                    value="todo"
+                    id="todo-radio"
+                  />
+                  {todo.completed && (
+                    <img
+                      src={Check}
+                      className='check-icon'
+                      alt=""
+                    />
+                  )}
+                </div>
                 <label
                   htmlFor={`todo-${todo.id}`}
                   style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
