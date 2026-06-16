@@ -147,7 +147,13 @@ export default function App() {
         </header>
         <main className="main">
           <div className="new-todo">
-            <input type="checkbox" name="todo" value={newTodoText} id="new-todo-check" />
+            <input 
+              type="checkbox" 
+              name="todo" 
+              value={newTodoText} 
+              id="new-todo-check" 
+              onClick={addTodo}
+            />
             <input
               type="text"
               name="new-todo-text"
