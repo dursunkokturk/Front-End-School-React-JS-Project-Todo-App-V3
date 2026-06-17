@@ -260,7 +260,13 @@ export default function App() {
             >
               All
             </h6>
-            <h6>Active</h6>
+            <h6
+              style={{ cursor: "pointer" }}
+              onClick={() => setFilter("active")}
+              className={filter === "active" ? "active-filter" : ""}
+            >
+              Active
+            </h6>
             <h6>Completed</h6>
           </div>
           <div className="drag-and-drop-area">
