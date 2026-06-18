@@ -24,7 +24,8 @@ export default function App() {
   const [filter, setFilter] = useState("all");
   const [confirmModal, setConfirmModal] = useState({
     open: false,
-    todoId: null
+    todoId: null,
+    type: null
   });
 
   useEffect(() => {
@@ -122,13 +123,18 @@ export default function App() {
   const askDelete = (id) => {
     setConfirmModal({
       open: true,
-      todoId: id
+      todoId: id,
+      type: "single"
     });
   };
 
   // Modal'daki "Evet" Butonuna Tiklaninca Sil
   const confirmDelete = () => {
-    setTodos(prev => prev.filter(todo => todo.id !== confirmModal.todoId));
+    if (confirmModal.type === "single") {
+      setTodos(prev => prev.filter(todo => todo.id !== confirmModal.todoId));
+    } else if (confirmModal.type === "clearCompleted") {
+      setTodos(prev => prev.filter(t => !t.completed));
+    }
     setConfirmModal({
       open: false,
       todoId: null
@@ -139,7 +145,17 @@ export default function App() {
   const cancelDelete = () => {
     setConfirmModal({
       open: false,
-      todoId: null
+      todoId: null,
+      type: null
+    });
+  };
+
+  // Clear Completed Butonuna Tiklaninca Modal'i Ac
+  const askClearCompleted = () => {
+    setConfirmModal({
+      open: true,
+      todoId: null,
+      type: "clearCompleted"
     });
   };
 
@@ -276,9 +292,7 @@ export default function App() {
                   <h6>{activeCount} items left</h6>
                   <h6
                     style={{ cursor: 'pointer' }}
-                    onClick={() => setTodos(
-                      prev => prev.filter(t => !t.completed)
-                    )}
+                    onClick={askClearCompleted}
                   >
                     Clear Completed
                   </h6>
@@ -320,7 +334,13 @@ export default function App() {
       {confirmModal.open && (
         <div className="modal-overlay" onClick={cancelDelete}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <p>Bu görevi silmek istediğinizden emin misiniz?</p>
+            <p>
+              {
+                confirmModal.type === "clearCompleted"
+                  ? "Tüm Tamamlanan Görevler Silinecek Emin Misiniz"
+                  : "Bu Görevi Silmek İstediğinizden Emin Misiniz?"
+              }
+            </p>
             <div className="modal-buttons">
               <button className="modal-btn cancel" onClick={cancelDelete}>Hayır</button>
               <button className="modal-btn confirm" onClick={confirmDelete}>Evet</button>
