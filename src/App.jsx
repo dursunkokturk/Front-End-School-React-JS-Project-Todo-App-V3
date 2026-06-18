@@ -22,6 +22,10 @@ export default function App() {
   const [errors, setErrors] = useState(null);
   const [newTodoText, setNewTodoText] = useState("");
   const [filter, setFilter] = useState("all");
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    todoId: null
+  });
 
   useEffect(() => {
     document.documentElement.setAttribute('dark-theme', darkTheme ? 'dark' : 'light');
@@ -103,8 +107,40 @@ export default function App() {
   const activeCount = todos.filter(todo => !todo.completed).length;
 
   // Todo Sil (Sadece state'ten — dummyjson Gercek Silme Yapmaz)
-  const deleteTodo = (id) => {
-    setTodos(prev => prev.filter(todo => todo.id !== id));
+  // const deleteTodo = (id) => {
+  //   const confirm=window.confirm("Bu Görevi Silmek İstediğinize Emin Misiniz?")
+
+  //   if(confirm){
+  //     setTodos(prev => prev.filter(todo => todo.id !== id));
+  //   }else if(!confirm){
+  //     setTodos()
+  //   }
+  // };
+
+
+  // Silme Ikonuna Tiklaninca Modal'i Ac
+  const askDelete = (id) => {
+    setConfirmModal({
+      open: true,
+      todoId: id
+    });
+  };
+
+  // Modal'daki "Evet" Butonuna Tiklaninca Sil
+  const confirmDelete = () => {
+    setTodos(prev => prev.filter(todo => todo.id !== confirmModal.todoId));
+    setConfirmModal({
+      open: false,
+      todoId: null
+    });
+  };
+
+  // Modal'daki "Hayır" Butonuna veya Overlay'e Tiklaninca Kapat
+  const cancelDelete = () => {
+    setConfirmModal({
+      open: false,
+      todoId: null
+    });
   };
 
   // Gorevler Listesinde Tamamlanmis ve 
@@ -228,7 +264,7 @@ export default function App() {
                   style={{ cursor: 'pointer' }}
                   className='delete-icon'
                   onClick={() => {
-                    deleteTodo(todo.id)
+                    askDelete(todo.id)
                   }}
                 />
               </div>
@@ -280,6 +316,18 @@ export default function App() {
           </div>
         </footer>
       </div>
+
+      {confirmModal.open && (
+        <div className="modal-overlay" onClick={cancelDelete}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <p>Bu görevi silmek istediğinizden emin misiniz?</p>
+            <div className="modal-buttons">
+              <button className="modal-btn cancel" onClick={cancelDelete}>Hayır</button>
+              <button className="modal-btn confirm" onClick={confirmDelete}>Evet</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

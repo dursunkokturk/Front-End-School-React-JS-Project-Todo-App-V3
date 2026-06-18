@@ -112,8 +112,8 @@ body {
 }
 
 .container .main .new-todo .new-todo-text {
-  border: none; 
-  outline: none; 
+  border: none;
+  outline: none;
   background: transparent;
   color: inherit;
   font-family: inherit;
@@ -240,9 +240,11 @@ input[type="checkbox"]:checked {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 11px;   /* check görselinin boyutuna göre ayarla */
+  width: 11px;
+  /* check görselinin boyutuna göre ayarla */
   height: 8px;
-  pointer-events: none;  /* tıklamayı checkbox'a geçir */
+  pointer-events: none;
+  /* tıklamayı checkbox'a geçir */
 }
 
 /* Todo içindeki delete ikonunu doğrudan hedefle */
@@ -255,6 +257,75 @@ input[type="checkbox"]:checked {
 /* Active Filtre Butonu */
 .active-filter {
   color: #3A7CFD !important;
+}
+
+/* Modal arka plan karartması */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+/* Modal kutusu */
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  font-family: Josefin Sans;
+  font-size: 14px;
+  color: #494C6B;
+}
+
+/* Dark tema modal */
+[dark-theme="dark"] .modal {
+  background: #25273D;
+  color: #C8CBE7;
+}
+
+/* Buton satırı */
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Ortak buton stili */
+.modal-btn {
+  flex: 1;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  font-family: Josefin Sans;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Hayır butonu */
+.modal-btn.cancel {
+  background: #E3E4F1;
+  color: #494C6B;
+}
+
+/* Evet butonu */
+.modal-btn.confirm {
+  background: linear-gradient(135deg, #55DDFF, #C058F3);
+  color: white;
+}
+
+/* Dark tema — Hayır butonu */
+[dark-theme="dark"] .modal-btn.cancel {
+  background: #393A4B;
+  color: #C8CBE7;
 }
 
 @media(width>1109px) {
