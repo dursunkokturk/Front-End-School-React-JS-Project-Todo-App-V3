@@ -137,7 +137,8 @@ export default function App() {
     }
     setConfirmModal({
       open: false,
-      todoId: null
+      todoId: null,
+      type: null
     });
   };
 
