@@ -50,10 +50,15 @@ export default function App() {
 
         // API Uzerinden Gelen Cevaplar Arasindan Kullanacagimiz Listeyi Aliyoruz
         const todoList = data.todos;
+
+        // LocalStorage'dan Kullanici Todo'larini Al
+        const stored = JSON.parse(localStorage.getItem('userTodos') || '[]');
+        console.log('Kullanicidan Alinan Data: ',stored);
+
         console.log('TodoList', todoList);
 
         // Aldigimiz Listeyi useState'e Gonderiyoruz
-        setTodos(todoList);
+        setTodos([...stored, ...todoList]);
       } catch (error) {
 
         // Data'yi Alma Asamasinda Bir Hata Olursa useState Uzerinden Aliyoruz
@@ -91,6 +96,13 @@ export default function App() {
 
     // Son Girilen Gorevi Listenin Basina Aliyoruz
     setTodos(prev => [newTodo, ...prev]);
+
+    // Kullanicidan Alinan Data'lari Aliyoruz
+    const stored = JSON.parse(localStorage.getItem('userTodos') || '[]');
+    // console.log(stored);
+
+    // Kullanicidan Alinan Data'lari localStorage'a Kaydediyoruz
+    localStorage.setItem('userTodos', JSON.stringify([newTodo, ...stored]));
 
     // Yeni Gorev Ekleme Isleminden Sonra 
     // Input Elementinin Icini Siliyoruz
@@ -132,8 +144,33 @@ export default function App() {
   const confirmDelete = () => {
     if (confirmModal.type === "single") {
       setTodos(prev => prev.filter(todo => todo.id !== confirmModal.todoId));
+
+      // LocalStorage'dan da Siliyoruz
+      const stored = JSON.parse(localStorage.getItem('userTodos') || '[]');
+      localStorage.setItem(
+        'userTodos',
+        JSON.stringify(
+          stored.filter(
+            t => t.id !== confirmModal.todoId
+          )
+        )
+      );
+      console.log("localStorage'dan Silinen Data'lar: ",stored);
     } else if (confirmModal.type === "clearCompleted") {
       setTodos(prev => prev.filter(t => !t.completed));
+
+      // LocalStorage'dan Tamamlananları Sil
+      const stored = JSON.parse(localStorage.getItem('userTodos') || '[]');
+      localStorage.setItem(
+        'userTodos',
+        JSON.stringify(
+          stored.filter(
+            t => !t.completed
+          )
+        )
+      );
+
+      console.log("localStorage Tamamlanmis Data'lar : ",stored);
     }
     setConfirmModal({
       open: false,
@@ -256,7 +293,17 @@ export default function App() {
                       setTodos(prev =>
                         prev.map(
                           t => t.id === todo.id ? { ...t, completed: !t.completed } : t
-                        ))
+                        )
+                      )
+
+                      // LocalStorage'daki Kullanici Todo'sunu Guncelle
+                      const stored = JSON.parse(localStorage.getItem('userTodos') || '[]');
+                      const updated = stored.map(t =>
+                        t.id === todo.id ? { ...t, completed: !t.completed } : t
+                      );
+                      localStorage.setItem('userTodos', JSON.stringify(updated));
+
+                      console.log("Güncellenmiş Data'lar: ",stored);
                     }}
                     name="todo"
                     value="todo"
